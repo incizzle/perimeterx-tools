@@ -1,3 +1,9 @@
 body {
   margin: 0;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+#root {
+  height: 100vh;
 }

@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-
-function deObfuscateString(text: any, factor: number = 50) {
-  var e = ""
-  for (let r in text) {
-    e += String.fromCharCode(factor ^ text.charCodeAt(r));
-  }
-  return e
-}
+import { obfuscateString } from '../services/px';
 
 const App: React.FC = () => {
   const [payload, setPayload] = useState('')
@@ -30,7 +23,7 @@ const App: React.FC = () => {
             setFactor(e.target.value)
             let deobfText
             try {
-              deobfText = deObfuscateString(atob(payload), parseInt(e.target.value))
+              deobfText = obfuscateString(atob(payload), parseInt(e.target.value))
               setDecodedPayload(JSON.stringify(JSON.parse(deobfText), undefined, 4))
             } catch (error) {
               setDecodedPayload(deobfText || "")
@@ -41,13 +34,13 @@ const App: React.FC = () => {
       </FactorContainer>
       <PayloadContainers>
         <PayloadInput
-          placeholder="PX Payload"
+          placeholder="aUkQRhAIEGJqABAeEFYQCEkQYmoEARAIEFtiWl1cVxAeEGJqCwQQCBBaRkZCQQgdHUVFRRxVXVNGHFFdXxAeEGJqAwsDEAgCHhBiagEFAxAIVFNeQVceEGJqCgcCEAgCHhBiagoHAxAIAwcECx4QYmoDAgEKEAgQUQtTU1AFU1EfVAZTAh8DA1dTH1MGBlQfU1FWVwYKAgIDAwAAEB4QYmoDAgIKEAgBBAICHhBiagMCBwcQCAMHCwsKBQoAAgIBBwUeEGJqAwIHBBAIAwcLCwoFCgACAgcDB09Pbw=="
           value={payload}
           onChange={(e) => {
             setPayload(e.target.value)
             let deobfText
             try {
-              deobfText = deObfuscateString(atob(e.target.value), parseInt(factor))
+              deobfText = obfuscateString(atob(e.target.value), parseInt(factor))
               setDecodedPayload(JSON.stringify(JSON.parse(deobfText), undefined, 4))
             } catch (error) {
               setDecodedPayload(deobfText || "")
@@ -90,17 +83,17 @@ const PayloadContainers = styled.div`
 
 const PayloadOutput = styled(SyntaxHighlighter)`
   font-size: 12px;
-  font-family: 'Roboto', sans-serif;
   height: 60vh;
+  border-radius: 0px !important;
   width: 40vw;
   overflow: hidden;
   overflow-wrap: anywhere;
   color: white;
   margin: 0px !important;
+  padding: 16px !important;
 `
 
 const PayloadInput = styled.textarea`
-  font-family: 'Roboto', sans-serif;
   font-size: 12px;
   padding: 16px;
   background-color: rgb(29, 31, 33);
@@ -115,10 +108,9 @@ const PayloadInput = styled.textarea`
 
 const Container = styled.div`
   background-color: rgb(16 17 21);
-  height: 100vh;
+  height: 96vh;
   flex-direction: column;
   display: flex;
-  justify-content: center;
   align-items: center;
 `
 

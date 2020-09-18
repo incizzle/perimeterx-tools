@@ -108,7 +108,7 @@ const PayloadInput = styled.textarea`
 
 const Container = styled.div`
   background-color: rgb(16 17 21);
-  height: 96vh;
+  height: calc(100vh - 50px);
   flex-direction: column;
   display: flex;
   align-items: center;
